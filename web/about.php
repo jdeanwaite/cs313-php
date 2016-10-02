@@ -1,6 +1,4 @@
-{% extends "layout.html" %}
-
-{% block content %}
+<?php require_once('views/header.php') ?>
 
     <div class="container">
         <div class="row">
@@ -40,7 +38,7 @@
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js"></script>
-    <script type="text/javascript" src="../js/datamaps.usa.min.js"></script>
+    <script type="text/javascript" src="js/datamaps.usa.min.js"></script>
 
     <script type="text/javascript">
         var usaMap = new Datamap({
@@ -260,4 +258,4 @@
         usaMap.labels();
     </script>
 
-{% endblock %}
+<?php require_once('views/footer.php') ?>
