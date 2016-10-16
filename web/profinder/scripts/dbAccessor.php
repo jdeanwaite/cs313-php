@@ -27,17 +27,20 @@ if (!mysqli_select_db($conn, $dbName)) {
     die("Uh oh, couldn't select database $dbName");
 }
 
-if ($data_to_fetch == "jobs") {
-    $data = getJobRequests($conn);
-} else if ($data_to_fetch == "user") {
-    $data = getUserInfo($conn);
-} else if ($data_to_fetch == "category") {
-    $data = "";
-}
+$jobs = getJobRequests($conn);
+$bids = getBidRequests($conn);
+
 
 function getJobRequests($conn)
 {
     $sql = "select * from job j join user u on u.id = j.created_by join category c on c.id = j.category_id";
+    $result = mysqli_query($conn, $sql);
+    return $result;
+}
+
+function getBidRequests($conn)
+{
+    $sql = "select * from bid b join user u on u.id = b.placed_by join job j on j.id = b.job_id";
     $result = mysqli_query($conn, $sql);
     return $result;
 }
