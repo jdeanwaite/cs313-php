@@ -27,20 +27,18 @@ if (!mysqli_select_db($conn, $dbName)) {
     die("Uh oh, couldn't select database $dbName");
 }
 
-$jobs = getJobRequests($conn);
-$bids = getBidRequests($conn);
-
-
-function getJobRequests($conn)
-{
-    $sql = "select * from job j join user u on u.id = j.created_by join category c on c.id = j.category_id";
-    $result = mysqli_query($conn, $sql);
-    return $result;
+if ($_POST && $_POST["data_type"] == "categories") {
+    echo json_encode(getCategories($conn));
 }
 
-function getBidRequests($conn)
-{
-    $sql = "select * from bid b join user u on u.id = b.placed_by join job j on j.id = b.job_id";
-    $result = mysqli_query($conn, $sql);
-    return $result;
+function getCategories($conn) {
+    $sql = "select * from category";
+    $categories = mysqli_query($conn, $sql);
+    $results = [];
+    if ($categories != null && $categories->num_rows > 0) {
+        while ($row = $categories->fetch_assoc()) {
+            $results[] = $row;
+        }
+    }
+    return $results;
 }

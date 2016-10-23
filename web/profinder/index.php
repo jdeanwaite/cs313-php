@@ -1,71 +1,40 @@
-<?php require_once('../views/header.php') ?>
-
 <?php
-require_once('scripts/dbAccessor.php');
+session_start();
+if (!$_SESSION || !$_SESSION["authenticated"]) {
+    header('Location: login.php');
+}
+require_once('../views/header.php');
 ?>
 
 <div class="container">
     <div class="row">
         <div class="col-md-3">
-            <h2>Pro Finder</h2>
-            <ul>
-                <li><a href="jobs.php">View all jobs</a></li>
+            <div class="row">
+                <div class="col-xs-12 profile">
+                    <h4>Welcome, <?php echo $_SESSION["user"]["first_name"] ?>!</h4>
+                    <span class="text-muted">Not <?php echo $_SESSION["user"]["first_name"] ?>? <a
+                            href="scripts/logout.php">Logout</a></span><br>
+                    <img src="http://aminoapps.com/static/img/user-icon-placeholder.png" class="profile">
+                    <br>
+                    <span>Account Type: <strong><?php echo ucwords($_SESSION["user"]["type"]) ?></strong></span>
+                </div>
+            </div>
+            <br>
+            <ul class="nav nav-pills nav-stacked">
+                <li role="presentation" class="active"><a href="index.php">Dashboard</a></li>
+                <li role="presentation"><a href="#">Search Jobs</a></li>
+                <li role="presentation"><a href="javascript:showJobModal();">Request Job</a></li>
             </ul>
         </div>
         <div class="col-md-9">
             <div class="row">
-                <div class="col-xs-12">
-                    <h2>Your Job Requests</h2>
-
-
-                    <?php
-                    if ($jobs != null && $jobs->num_rows > 0) {
-                        echo "<ol>";
-                        // output data of each row
-                        while ($row = $jobs->fetch_assoc()) {
-                            echo "<li>" . $row["title"] . "</li>";
-                        }
-                        echo "</ol>";
-                    } else {
-                        echo "You have no current job requests.";
-                    }
-                    ?>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-xs-12">
-                    <h2>Your Incomming Bids</h2>
-
-                    <?php
-                    if ($bids != null && $bids->num_rows > 0) {
-                        echo "<table class='table table-striped'>
-                    <thead>
-                    <tr>
-                        <th>Job Title</th>
-                        <th>Cost</th>
-                        <th>Placed By</th>
-                        <th>Message</th>
-                    </tr>
-                    </thead>
-                    <tbody>";
-                        // output data of each row
-                        while ($row = $bids->fetch_assoc()) {
-                            echo "<tr>" .
-                                "<td>" . $row["title"] . "</td>" .
-                                "<td>" . $row["cost"] . "</td>" .
-                                "<td>" . $row["first_name"] . "</td>" .
-                                "<td>" . $row["message"] . "</td>" .
-                                "</tr>";
-                        }
-                        echo "
-                    </tbody>
-                    </table>";
-                    } else {
-                        echo "You have no current job requests.";
-                    }
-                    ?>
-                </div>
+                <?php
+                if ($_SESSION["user"]["type"] == "pro") {
+                    require_once('proDashboard.php');
+                } else {
+                    require_once('userDashboard.php');
+                }
+                ?>
             </div>
         </div>
     </div>

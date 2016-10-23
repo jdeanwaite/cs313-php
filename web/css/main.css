@@ -11,3 +11,21 @@ img.contained {
     width: 90%;
     height: auto;
 }
+
+.form-signin {
+    max-width: 400px;
+    margin: 15% auto auto;
+}
+
+div.profile {
+    background-color: #eee;
+    border-radius: 2px;
+    text-align: center;
+    padding: 10px;
+}
+
+img.profile {
+    width: 75px;
+    max-width: 80%;
+    margin: 10px;
+}
