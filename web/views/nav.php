@@ -20,6 +20,7 @@
                     <ul class="dropdown-menu">
                         <li><a href="/assignments.php">Assignments Home</a></li>
                         <li><a href="/profinder/index.php">Pro Finder</a></li>
+                        <li><a href="/assignments/team07/login.php">Team 07 Activity</a></li>
                         <li class="dropdown-header">More Coming Soon</li>
                     </ul>
                 </li>
