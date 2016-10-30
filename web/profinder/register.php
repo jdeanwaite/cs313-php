@@ -6,7 +6,11 @@
  * Time: 8:06 AM
  */
 
-if ($_POST && $_POST["email"] && $_POST["password"]) {
+if ($_POST) {
+    if (!($_POST["email"] && $_POST["password"] && $_POST["first_name"] && $_POST["last_name"] && ($_POST["account_type"] == "user" || $_POST["account_type"] == "pro")))
+    {
+        header('Location: register.php');
+    }
     $servername = "us-cdbr-iron-east-04.cleardb.net";
     $email = "b1633b6a10ff99";
     $password = "8ad6b63d";
@@ -28,14 +32,15 @@ if ($_POST && $_POST["email"] && $_POST["password"]) {
     $password = $hash = password_hash($_POST["password"], PASSWORD_DEFAULT);
     $first_name = $_POST["first_name"];
     $last_name = $_POST["last_name"];
-    $sql = "insert into user (first_name, last_name, email, password) values ('$first_name', '$last_name', '$email', '$password')";
+    $account_Type = $_POST["account_type"];
+    $sql = "insert into user (first_name, last_name, email, password, type) values ('$first_name', '$last_name', '$email', '$password', '$account_Type')";
     $user = mysqli_query($conn, $sql);
 
     header('Location: login.php');
 }
 ?>
 
-<?php require_once('../../views/header.php') ?>
+<?php require_once('../views/header.php') ?>
 
 <div class="container">
 
@@ -66,12 +71,19 @@ if ($_POST && $_POST["email"] && $_POST["password"]) {
             <input type="password" id="password-confirm" name="passwordConfirm" class="form-control"
                    placeholder="Confirm Password" required="">
         </div>
+        <div class="form-group">
+            <label for="account-type" class="sr-only">Account Type</label>
+            <select id="account-type" name="account_type" class="form-control" required>
+                <option value="user">User</option>
+                <option value="pro">Pro</option>
+            </select>
+        </div>
         <button class="btn btn-md btn-primary btn-block" type="submit">Register</button>
     </form>
 
 </div>
 
-<?php require_once('../../views/footer.php') ?>
+<?php require_once('../views/footer.php') ?>
 
 <script type="text/javascript">
     $(document).ready(function () {

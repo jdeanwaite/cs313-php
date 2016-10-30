@@ -20,6 +20,7 @@ require_once('scripts/dbAccessor.php');
         <input type="password" id="password" name="password" class="form-control" placeholder="Password" required="">
         </div>
         <button class="btn btn-md btn-primary btn-block" type="submit">Sign in</button>
+        <a href="register.php">Register</a>
     </form>
 
 </div>

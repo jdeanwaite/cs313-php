@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: justin
- * Date: 10/22/16
- * Time: 1:47 PM
+ * Date: 10/29/16
+ * Time: 6:50 PM
  */
 
 session_start();
@@ -25,14 +25,18 @@ if (!mysqli_select_db($conn, $dbName)) {
     die("Uh oh, couldn't select database $dbName");
 }
 
-$sql = "select b.cost, j.title, j.description from bid b join job j on j.id = b.job_id where b.accepted != 1 and placed_by = ". $_SESSION["user"]["id"];
-$bids = mysqli_query($conn, $sql);
+$userId = $_SESSION['user']['id'];
+$sql = "select j.id as job_id, j.title as job_title, j.description, c.category_name from job j join category c on c.id = j.category_id where j.id not in (select b.job_id from bid b where accepted = 1 or placed_by = $userId)";
+$jobs = mysqli_query($conn, $sql);
 
 $results = [];
-if ($bids != null && $bids->num_rows > 0) {
-    while ($row = $bids->fetch_assoc()) {
+if ($jobs != null && $jobs->num_rows > 0) {
+    while ($row = $jobs->fetch_assoc()) {
         $results[] = $row;
     }
+}
+else
+{
 }
 
 echo json_encode($results);

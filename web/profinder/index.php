@@ -22,8 +22,16 @@ require_once('../views/header.php');
             <br>
             <ul class="nav nav-pills nav-stacked">
                 <li role="presentation" class="active"><a href="index.php">Dashboard</a></li>
-                <li role="presentation"><a href="#">Search Jobs</a></li>
-                <li role="presentation"><a href="javascript:showJobModal();">Request Job</a></li>
+                <?php
+                if ($_SESSION["user"]["type"] == "pro")
+                {
+                    echo '<li role="presentation"><a href="javascript:showSearchModal();">Search Jobs</a></li>';
+                }
+                else
+                {
+                    echo '<li role="presentation"><a href="javascript:showJobModal();">Request Job</a></li>';
+                }
+                ?>
             </ul>
         </div>
         <div class="col-md-9">

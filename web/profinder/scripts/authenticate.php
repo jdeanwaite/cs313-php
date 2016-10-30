@@ -24,14 +24,23 @@ if (!mysqli_select_db($conn, $dbName)) {
     die("Uh oh, couldn't select database $dbName");
 }
 
-$sql = "select * from user where email = '" . $_POST["email"] . "' and password = '" . $_POST["password"] ."'";
+$sql = "select id, first_name, last_name, email, password, type from user where email = '" . $_POST["email"] . "'";
 $user = mysqli_query($conn, $sql);
+$password = $_POST["password"];
 
-if ($user != null && $user->num_rows == 1) {
-    $_SESSION["authenticated"] = true;
+if ($user != null && $user->num_rows >= 1) {
     while ($row = $user->fetch_assoc()) {
-        $_SESSION["user"] = $row;
+        if (password_verify($password, $row["password"])) {
+            $authenticated = true;
+            $row["password"] = null;
+            $_SESSION["user"] = $row;
+            $_SESSION["authenticated"] = true;
+            break;
+        }
     }
+}
+
+if ($authenticated) {
     header('Location: ../index.php');
 } else {
     header('Location: ../login.php');
